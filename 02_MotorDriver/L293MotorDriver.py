@@ -8,9 +8,11 @@ class L293MotorDriver:
         self.enableGpioPin = _enableGpioPin
         self.pwmPinCh1 = _ch1A_GpioPin
         self.pwmPinCh2 = _ch2A_GpioPin
-
-
         self.setupGPIOs()
+
+    def __del__(self):
+        print "l293 delete!"
+        GPIO.cleanup()
 
     def setupGPIOs(self):
         #tell the RPi that we want toe specify all pins as GPIOpins of the Boardcom chip (BCM)
@@ -47,11 +49,18 @@ class L293MotorDriver:
 def main():
     print "###### Start the Packeage tests!!! ######"
 
-    motor = L293MotorDriver(2, 3, 4)
-
-    motor.forward()
-    sleep(5)
-    GPIO.cleanup()
+    try:
+        motor = L293MotorDriver(17, 27, 22)
+        motor.forward()
+        sleep(5)
+        motor.backward()
+        sleep(2)
+    except KeyboardInterrupt:
+        print "clean up all instanes"
+        del motor
+    finally:
+        print "clean up everthing else"
+        del motor
 
 
 if __name__ == "__main__":
