@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from time import sleep
 
 class PhotoTrigger:
 
@@ -12,14 +13,34 @@ class PhotoTrigger:
         GPIO.setup(self.LaserPin,GPIO.OUT)
         GPIO.setup(self.LdrPin,GPIO.IN)
 
-    def LaserOn(self):
+    def laserOn(self):
         GPIO.output(self.LaserPin, GPIO.HIGH)
 
-    def LaserOff(self):
+    def laserOff(self):
         GPIO.output(self.LaserPin, GPIO.LOW)
 
-    def PhotoTrigger(self):
+    def photoTrigger(self):
         if (self.LdrPin == 1):
             return True
         else:
             return False
+
+    def setAllPinsLOW(self):
+        print "set all pins to low"
+        GPIO.output(self.LaserPin, GPIO.LOW)
+
+def main():
+    try:
+        trigger = PhotoTrigger()
+        trigger.laserOn()
+        sleep(5)
+        trigger.laserOff()
+        sleep(2)
+    except KeyboardInterrupt:
+        print 'cleanup'
+        trigger.setAllPinsLOW()
+        del trigger
+    finally:
+        print 'cleanup'
+        trigger.setAllPinsLOW()
+        del trigger
