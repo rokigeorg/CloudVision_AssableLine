@@ -14,7 +14,7 @@ class LedDriver:
     def __del__(self):
         self.setAllPinsLOW()
         print "driver delete!"
-        GPIO.cleanup()
+
 
     def setupGPIOs(self):
         # tell the RPi that we want toe specify all pins as GPIOpins of the Boardcom chip (BCM)
@@ -53,12 +53,10 @@ class LedDriver:
 
     def resetAllPinsToDefault(self):
         print "set all pins to low"
-        GPIO.output(self.enableGpioPin, GPIO.LOW)
-        GPIO.output(self.pwmPinCh1, GPIO.LOW)
-        GPIO.output(self.pwmPinCh2, GPIO.LOW)
-        GPIO.setup(self.enableGpioPin, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.setup(self.pwmPinCh1, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.setup(self.pwmPinCh2, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        self.setAllPinsLOW()
+        GPIO.setup(self.enableGpioPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pwmPinCh1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.pwmPinCh2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 
 def main():

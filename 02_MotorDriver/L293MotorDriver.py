@@ -75,6 +75,7 @@ def main():
         sleep(2)
     except KeyboardInterrupt:
         print "clean up all instanes"
+        del motor
     finally:
         print "clean up everthing else"
         del motor
