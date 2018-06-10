@@ -1,25 +1,23 @@
-# all the imports
-import os
-import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template, flash
+
+import sqlalchemy as sqlalchemy
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+print("***** Create the FLASK instance ******")
+
+app = Flask(__name__)
+
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.path.join(app.root_path, 'testDB.db')
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+#app.config.from_object(__name__) # load config from this file , flaskr.py
+
+#create db connection
+#db = SQLAlchemy(app)
+
+#create models for sensor data, images, img-meta-data, motor-data,
+#class RawImageModel(db.Model):
+#    id = db.Column(db.Integer,primary_key=True)
 
 
-app = Flask(__name__) # create the application instance :)
-app.config.from_object(__name__) # load config from this file , flaskr.py
-
-# Load default config and override config from an environment variable
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'flaskr.db'),
-    SECRET_KEY='raspberrymiks18',
-    USERNAME='pi',
-    PASSWORD='raspberrymiks18'
-))
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
-
-def connect_db():
-    """Connects to the specific database."""
-    rv = sqlite3.connect(app.config['DATABASE'])
-    rv.row_factory = sqlite3.Row
-    return rv
-
+from app import database,routes
