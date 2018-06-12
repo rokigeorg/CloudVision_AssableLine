@@ -20,27 +20,36 @@ class PhotoTrigger:
         GPIO.output(self.LaserPin, GPIO.LOW)
 
     def photoTrigger(self):
-        if (self.LdrPin == 1):
-            return True
-        else:
+        if GPIO.input(self.LdrPin):
             return False
+        else:
+            return True
 
     def setAllPinsLOW(self):
         print "set all pins to low"
         GPIO.output(self.LaserPin, GPIO.LOW)
 
 def main():
+    trig = PhotoTrigger(24, 23)
+    trig.laserOn()
+    
     try:
-        trigger = PhotoTrigger()
-        trigger.laserOn()
-        sleep(5)
-        trigger.laserOff()
-        sleep(2)
+        while True:
+            if trig.photoTrigger()==True:
+                print 'photo triggered'
+                sleep(1)
+                #capture a photo
+            sleep(0.1)
+
     except KeyboardInterrupt:
-        print 'cleanup'
-        trigger.setAllPinsLOW()
-        del trigger
+        print 'cleanup the GPIOs'
+        trig.setAllPinsLOW()
+        del trig
     finally:
-        print 'cleanup'
-        trigger.setAllPinsLOW()
-        del trigger
+        
+        print 'cleanup the GPIOs'
+        trig.setAllPinsLOW()
+        del trig
+
+if __name__ == '__main__':
+    main()
