@@ -11,7 +11,7 @@ class L293MotorDriver:
         self.setupGPIOs()
 
     def __del__(self):
-        print "l293 delete!"
+        #print "l293 delete!"
         GPIO.cleanup()
 
     def setupGPIOs(self):
@@ -30,6 +30,11 @@ class L293MotorDriver:
     def disablePwmPins(self):
         GPIO.output(self.enableGpioPin, GPIO.LOW)
 
+    def setAllPinsLOW(self):
+        GPIO.setup(self.enableGpioPin, GPIO.LOW)
+        GPIO.setup(self.pwmPinCh1, GPIO.LOW)
+        GPIO.setup(self.pwmPinCh2, GPIO.LOW)
+
 
 
     def forward(self):
@@ -47,7 +52,7 @@ class L293MotorDriver:
 
 
 def main():
-    print "###### Start the Packeage tests!!! ######"
+    #print "###### Start the Packeage tests!!! ######"
 
     try:
         motor = L293MotorDriver(17, 27, 22)
@@ -56,10 +61,10 @@ def main():
         motor.backward()
         sleep(2)
     except KeyboardInterrupt:
-        print "clean up all instanes"
+        #print "clean up all instanes"
         del motor
     finally:
-        print "clean up everthing else"
+        #print "clean up everthing else"
         del motor
 
 
