@@ -37,7 +37,7 @@ def main():
         while True:
             if trig.photoTrigger()==True:
                 print 'photo triggered'
-                sleep(1)
+                sleep(2)
                 #capture a photo
             sleep(0.1)
 
@@ -45,8 +45,8 @@ def main():
         print 'cleanup the GPIOs'
         trig.setAllPinsLOW()
         del trig
+    
     finally:
-        
         print 'cleanup the GPIOs'
         trig.setAllPinsLOW()
         del trig
