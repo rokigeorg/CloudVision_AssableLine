@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-class PhotoTrigger:
+class PhotoSensor:
 
     def __init__(self, _laserOutput, _ldrInput):
         self.LaserPin = _laserOutput
@@ -30,7 +30,7 @@ class PhotoTrigger:
         GPIO.output(self.LaserPin, GPIO.LOW)
 
 def main():
-    trig = PhotoTrigger(24, 23)
+    trig = PhotoSensor(24, 23)
     trig.laserOn()
     
     try:
