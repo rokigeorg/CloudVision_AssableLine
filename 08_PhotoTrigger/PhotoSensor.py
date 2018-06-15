@@ -3,7 +3,7 @@ from time import sleep
 
 class PhotoSensor:
 
-    def __init__(self, _laserOutput, _ldrInput):
+    def __init__(self,  _ldrInput, _laserOutput):
         self.LaserPin = _laserOutput
         self.LdrPin = _ldrInput
         self.setupGPIOs()
@@ -30,16 +30,18 @@ class PhotoSensor:
         GPIO.output(self.LaserPin, GPIO.LOW)
 
 def main():
-    trig = PhotoSensor(24, 23)
+    trig = PhotoSensor(27, 22)
     trig.laserOn()
-    
+    print 'cleanup the GPIOs'
+
     try:
         while True:
             if trig.photoTrigger()==True:
                 print 'photo triggered'
                 sleep(2)
                 #capture a photo
-            sleep(0.1)
+            sleep(1)
+            print "i"
 
     except KeyboardInterrupt:
         print 'cleanup the GPIOs'

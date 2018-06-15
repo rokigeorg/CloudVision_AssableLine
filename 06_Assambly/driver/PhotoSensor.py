@@ -3,7 +3,7 @@ from time import sleep
 
 class PhotoSensor:
 
-    def __init__(self, _laserOutput, _ldrInput):
+    def __init__(self, _ldrInput, _laserOutput= 100):
         self.LaserPin = _laserOutput
         self.LdrPin = _ldrInput
         self.setupGPIOs()
@@ -20,6 +20,12 @@ class PhotoSensor:
         GPIO.output(self.LaserPin, GPIO.LOW)
 
     def photoTrigger(self):
+        if GPIO.input(self.LdrPin):
+            return False
+        else:
+            return True
+
+    def checksLdrInputPin(self):
         if GPIO.input(self.LdrPin):
             return False
         else:
