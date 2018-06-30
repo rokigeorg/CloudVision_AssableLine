@@ -13,8 +13,7 @@ class LedDriver:
 
     def __del__(self):
         self.setAllPinsLOW()
-        print "driver delete!"
-
+        self.log("driver delete!")
 
     def setupGPIOs(self):
         # tell the RPi that we want toe specify all pins as GPIOpins of the Boardcom chip (BCM)
@@ -46,21 +45,24 @@ class LedDriver:
         GPIO.output(self.pwmPinCh2, GPIO.LOW)
 
     def setAllPinsLOW(self):
-        print "set all pins to low"
+        self.log("set all pins to low")
         GPIO.output(self.enableGpioPin, GPIO.LOW)
         GPIO.output(self.pwmPinCh1, GPIO.LOW)
         GPIO.output(self.pwmPinCh2, GPIO.LOW)
 
     def resetAllPinsToDefault(self):
-        print "set all pins to low"
+        self.log("set all pins to low")
         self.setAllPinsLOW()
         GPIO.setup(self.enableGpioPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.pwmPinCh1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.pwmPinCh2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+    def log(self, msg):
+        print("> Log [L293LedDriver.py]: " + msg)
+
 
 def main():
-    print "###### Start the Packeage tests!!! ######"
+    print("###### Start the Packeage tests!!! ######")
 
     try:
         light = LedDriver(13, 6, 5)
@@ -69,12 +71,14 @@ def main():
         light.switchOff()
 
     except KeyboardInterrupt:
-        print "clean up all instanes"
+        print("clean up all instanes")
         del light
     finally:
-        print "clean up everthing else"
+        print("clean up everthing else")
         del light
 
 
 if __name__ == "__main__":
     main()
+
+

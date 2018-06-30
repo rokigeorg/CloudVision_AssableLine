@@ -11,9 +11,10 @@ class L293MotorDriver:
         self.pwmPinCh1 = _ch1A_GpioPin
         self.pwmPinCh2 = _ch2A_GpioPin
         self.setupGPIOs()
+        self.hPwm = GPIO.PWM(self.enableGpioPin, 100)
 
     def __del__(self):
-        print "l293 delete!"
+        self.log("l293 delete!")
         self.resetAllPinsToDefault()
         ##GPIO.cleanup()
 
@@ -33,51 +34,70 @@ class L293MotorDriver:
         GPIO.output(self.enableGpioPin, GPIO.LOW)
 
     def forward(self):
-        print "forward"
+        self.log("forward")
         # channel 1 of th L293 drives the Motor to go forward
         self.enablePwmPins()
         # set the other channel low before forward Channel is set to high
         GPIO.output(self.pwmPinCh2, GPIO.LOW)
         GPIO.output(self.pwmPinCh1, GPIO.HIGH)
 
-
     def backward(self):
-        print "backward"
+        self.log("backward")
         self.enablePwmPins()
         # set the other channel low before forward Channel is set to high
         GPIO.output(self.pwmPinCh1, GPIO.LOW)
         GPIO.output(self.pwmPinCh2, GPIO.HIGH)
 
+    # when calling startPwmForward make sure you stop the Pwm again by calling stopPwm()
+    def startPwmForward(self):
+        self.setAllPinsLOW()
+        GPIO.output(self.pwmPinCh2, GPIO.LOW)
+        GPIO.output(self.pwmPinCh1, GPIO.HIGH)
+        self.hPwm.start(20)
+
+    # when calling startPwmBackward make sure you stop the Pwm again by calling stopPwm()
+    def startPwmBackward(self):
+        self.setAllPinsLOW()
+        GPIO.output(self.pwmPinCh1, GPIO.LOW)
+        GPIO.output(self.pwmPinCh2, GPIO.HIGH)
+        self.hPwm.start(20)
+
+    def stopPwm(self):
+        self.hPwm.stop()
 
     def setAllPinsLOW(self):
-        print "set all pins to low"
+        self.log("set all pins to low")
         GPIO.output(self.enableGpioPin, GPIO.LOW)
         GPIO.output(self.pwmPinCh1, GPIO.LOW)
         GPIO.output(self.pwmPinCh2, GPIO.LOW)
 
     def resetAllPinsToDefault(self):
-        print "set all pins to low"
+        self.log("set all pins to low")
         self.setAllPinsLOW()
         GPIO.setup(self.enableGpioPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.pwmPinCh1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.pwmPinCh2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+    def log(self, msg):
+        print("> Log [L293MotorDriver.py]: " + msg)
 
 
 def main():
-    print "###### Start the Packeage tests!!! ######"
+    log("###### Start the Packeage tests!!! ######")
 
     try:
-        motor = L293MotorDriver(20, 19, 26)
-        motor.forward()
+        motor = L293MotorDriver(12, 6, 5)
+        motor.startPwmForward()
         sleep(2)
-        motor.backward()
+        motor.stopPwm()
+        motor.startPwmBackward()
         sleep(2)
+        motor.stopPwm()
     except KeyboardInterrupt:
-        print "clean up all instanes"
+        self.log("clean up all instanes")
         del motor
     finally:
-        print "clean up everthing else"
+        self.log("clean up everthing else")
         del motor
 
 
