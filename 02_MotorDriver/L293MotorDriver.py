@@ -68,10 +68,10 @@ def main():
     print "###### Start the Packeage tests!!! ######"
 
     try:
-        motor = L293MotorDriver(20, 19, 26)
+        motor = L293MotorDriver(12, 6, 5)
         motor.forward()
-        sleep(2)
-        motor.backward()
+        sleep(8)
+        #motor.backward()
         sleep(2)
     except KeyboardInterrupt:
         print "clean up all instanes"

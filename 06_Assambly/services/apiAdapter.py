@@ -12,7 +12,7 @@ class ApiAdapter:
     def __init__(self):
         self.log("hey")
         self.client = vision.ImageAnnotatorClient()
-        self.content = 0
+        self.content = list()
 
     def detect_text(self,path):
         """Detects text in the file."""

@@ -6,6 +6,7 @@ class LedDriver:
     """Common led driver class for the L293 H-bridge. Its written for the use on a RPi3."""
 
     def __init__(self, _enableGpioPin, _ch1A_GpioPin, _ch2A_GpioPin):
+        GPIO.cleanup()
         self.enableGpioPin = _enableGpioPin
         self.pwmPinCh1 = _ch1A_GpioPin
         self.pwmPinCh2 = _ch2A_GpioPin
@@ -38,6 +39,13 @@ class LedDriver:
         GPIO.output(self.pwmPinCh1, GPIO.LOW)
         GPIO.output(self.pwmPinCh2, GPIO.HIGH)
 
+    def switchOn2(self):
+        # channel 1 of th L293 drives the Motor to go forward
+        self.enablePwmPins()
+        # set the other channel low before forward Channel is set to high
+        GPIO.output(self.pwmPinCh2, GPIO.LOW)
+        GPIO.output(self.pwmPinCh1, GPIO.HIGH)
+
     def switchOff(self):
         # channel 1 of th L293 drives the Motor to go forward
         self.enablePwmPins()
@@ -63,9 +71,12 @@ def main():
     print "###### Start the Packeage tests!!! ######"
 
     try:
-        light = LedDriver(13, 6, 5)
+        light = LedDriver(21, 16, 20)
         light.switchOn()
-        sleep(5)
+        sleep(1)
+        light.switchOff()
+        light.switchOn2()
+        sleep(1)
         light.switchOff()
 
     except KeyboardInterrupt:
