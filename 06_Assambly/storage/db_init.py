@@ -2,7 +2,7 @@ import sqlite3
 
 ############### Settings ####################
 #DB Name
-DB_NAME = "testDB"
+DB_NAME = "testDB.db"
 
 #SQL File with Table Schema and Initialization Data
 SQL_File_Name = "db_schema.sql"

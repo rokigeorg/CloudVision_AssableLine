@@ -1,6 +1,6 @@
 drop table if exists Bilder;
 create table Bilder (
-  id integer primary key autoincrement,
+  id integer primary key ,
   filename text not null,
   sufix TEXT NOT null,
   pathtopic TEXT,
@@ -9,4 +9,4 @@ create table Bilder (
   csvlabels TEXT
 );
 
-INSERT INTO Bilder (filename, sufix,pathtopic, isCircle, csvlabels) VALUES ("tname.png", "png","/home/pi/TestDir" "0", "val, val2, val3, val4 ");
+INSERT INTO Bilder (filename, sufix,pathtopic, isCircle, csvlabels) VALUES ("tname.png", "png","/home/pi/TestDir" ,"0", "val, val2, val3, val4 ");
