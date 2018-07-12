@@ -58,16 +58,23 @@ class DataBaseAdapter():
     def getAllEntries(self):
         print("Start zu query DB.")
         self.conncetToDB()
-        self.cur.execute("""SELECT filename,pathtopic, isCircle, csvlabels FROM Bilder""")
+        self.cur.execute("""SELECT filename,pathtopic, isCircle, csvlabels FROM Bilder ORDER BY id desc""")
         # data = self.cur.fetchone()
+
+        listEintries = list()
         for row in self.cur.fetchall():
-            print(row)
+            e = ImgEntrys(filename=row[0], pathtopic=row[1],  isCircle=row[2], csvlabels=row[3])
+
+            listEintries.append(e)
+
+        #print(listEintries)
         self.conn.commit()
         self.conn.close()
         # print(data)
+        return listEintries
 
     def getLastEntry(self):
-        print("Start zu query DB.")
+        print("Start getLastEntry")
         self.conncetToDB()
         self.cur.execute(
             """SELECT filename,pathtopic,rawbits, isCircle, csvlabels FROM Bilder ORDER BY id desc limit 1""")
@@ -75,11 +82,11 @@ class DataBaseAdapter():
         self.conn.commit()
         # close the db conncetion savely
         self.conn.close()
-        print(data)
+        #print(data)
         return data
 
     def getImgDbAndSaveItToStatics(self):
-        print("Start zu query DB.")
+        print("Start getImgDbAndSaveItToStatics")
         self.conncetToDB()
         self.cur.execute("""SELECT filename , rawbits FROM Bilder ORDER BY id desc limit 1""")
         data = self.cur.fetchone()
@@ -90,29 +97,20 @@ class DataBaseAdapter():
         return data
 
 
-
 @app.route('/')
-def show_all():
+def show_one():
     dbA = DataBaseAdapter()
     row = dbA.getLastEntry()
     lastEntry = ImgEntrys(filename=row[0], pathtopic=row[1], rawbits=row[2], isCircle=row[3], csvlabels=row[4])
     return render_template('test.html', imgEntry=lastEntry)
 
 
-@app.route('/new', methods=['GET', 'POST'])
-def new():
-    if request.method == 'POST':
-        if not request.form['name'] or not request.form['city'] or not request.form['addr']:
-            flash('Please enter all the fields', 'error')
-        else:
-            # student = students(request.form['name'], request.form['city'],
-            #                  request.form['addr'], request.form['pin'])
-
-            # db.session.add(student)
-            db.session.commit()
-            flash('Record was successfully added')
-            return redirect(url_for('show_all'))
-    return render_template('new.html')
+@app.route('/all')
+def show_all():
+    dbA = DataBaseAdapter()
+    entries = dbA.getAllEntries()
+    print(entries)
+    return render_template('show_all.html', imgEntries=entries)
 
 
 if __name__ == '__main__':

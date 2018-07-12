@@ -2,42 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Assambly Webseite</title>
+    <link rel="stylesheet" href="static/pure-release/pure.css">
 </head>
 <body>
 
-<h3>
-    <a href="{{ url_for('show_all') }}">Comments - Flask
-        SQLAlchemy example</a>
-</h3>
 
-<hr/>
-{%- for message in get_flashed_messages() %}
-{{ message }}
-{%- endfor %}
+<h2>Cloud Vision Assambly Line</h2>
 
-<h3>Students (<a href="{{ url_for('new') }}">Add Student
-</a>)</h3>
 
-<table>
+<table class="pure-table">
     <thead>
-    <tr>
-        <th>Name</th>
-        <th>City</th>
-        <th>Address</th>
-        <th>Pin</th>
+    <tr class="pure-table-odd">
+        <th>Dateiname</th>
+        <th>Bild Path</th>
+        <th>Bild Img</th>
+        <th>ist ein Kreis</th>
+        <th>Cloud Vision Tags</th>
     </tr>
     </thead>
 
     <tbody>
-    {% for student in students %}
+
+        {% for imgEntry in imgEntries %}
     <tr>
-        <td>{{ student.name }}</td>
-        <td>{{ student.city }}</td>
-        <td>{{ student.addr }}</td>
-        <td>{{ student.pin }}</td>
+       <td>{{ imgEntry.filename }}</td>
+        <td style="max-width: 150px; overflow-wrap: break-word;">
+
+            {{ imgEntry.pathtopic }}
+        </td>
+        <td>
+            <a href="static/imgs/{{ imgEntry.filename }}">
+                <img style=" width:320px; height: auto" src="static/imgs/{{ imgEntry.filename }}"
+                     alt="Bild des Obejktes"/>
+            </a>
+        </td>
+
+        <td>
+            {% if imgEntry.isCircle %}
+            <span>Ja</span>
+            {% else %}
+            <span>Nein</span>
+            {% endif %}
+
+        </td>
+        <td>{{ imgEntry.csvlabels }}</td>
     </tr>
     {% endfor %}
+
+    </tr>
+
     </tbody>
 </table>
 

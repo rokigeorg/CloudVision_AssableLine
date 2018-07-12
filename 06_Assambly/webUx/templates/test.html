@@ -11,12 +11,11 @@
 <h2>Cloud Vision Assambly Line</h2>
 
 
-
 <table class="pure-table">
     <thead>
     <tr class="pure-table-odd">
         <th>Dateiname</th>
-        <th >Bild Path</th>
+        <th>Bild Path</th>
         <th>Bild Img</th>
         <th>ist ein Kreis</th>
         <th>Cloud Vision Tags</th>
@@ -24,27 +23,33 @@
     </thead>
 
     <tbody>
-     <tr>
+    <tr>
         <td>{{ imgEntry.filename }}</td>
         <td style="max-width: 150px; overflow-wrap: break-word;">
 
-            {{ imgEntry.pathtopic }}</td>
+            {{ imgEntry.pathtopic }}
+        </td>
         <td>
             <a href="static/imgs/{{ imgEntry.filename }}">
-            <img style=" width:320px; height: auto"  src="static/imgs/{{ imgEntry.filename }}" alt="Bild des Obejktes" />
+                <img style=" width:320px; height: auto" src="static/imgs/{{ imgEntry.filename }}"
+                     alt="Bild des Obejktes"/>
             </a>
         </td>
 
         <td>
             {% if imgEntry.isCircle %}
-                <span>Ja</span>
+            <span>Ja</span>
             {% else %}
-                <span>Nein</span>
+            <span>Nein</span>
             {% endif %}
             {{ imgEntry.isCircle }}
 
         </td>
         <td>{{ imgEntry.csvlabels }}</td>
+
+
+
+
     </tr>
 
     </tbody>
