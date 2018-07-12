@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assambly Webseite</title>
+</head>
+<body>
+
+
+<h2>Cloud Vision Assambly Line</h2>
+
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Dateiname</th>
+        <th>Bild</th>
+        <th>Bild Img</th>
+        <th>ist ein Kreis</th>
+        <th>Cloud Vision Tags</th>
+    </tr>
+    </thead>
+
+    <tbody>
+     <tr>
+        <td>{{ imgEntry.filename }}</td>
+        <td>{{ imgEntry.pathtopic }}</td>
+        <td>
+            <img src="data:image/jpg;base64,{{ imgEntry.rawbits }}" alt="" />
+
+
+        </td>
+
+        <td>
+            {% if imgEntry.isCircle %}
+                <span>Ja</span>
+            {% else %}
+                <span>Nein</span>
+            {% endif %}
+            {{ imgEntry.isCircle }}
+
+        </td>
+        <td>{{ imgEntry.csvlabels }}</td>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ imgEntry.filename }}</td>
+        <td>{{ imgEntry.pathtopic }}</td>
+        <td>{{ imgEntry.rawbits }}</td>
+        <td>{{ imgEntry.isCircle }}</td>
+        <td>{{ imgEntry.csvlabels }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ class LedDriver:
 
     def __del__(self):
         self.setAllPinsLOW()
+        self.resetAllPinsToDefault()
         self.log("driver delete!")
 
     def setupGPIOs(self):
@@ -64,7 +65,7 @@ class LedDriver:
 def main():
     print("###### Start the Packeage tests!!! ######")
 
-    GPIO.cleanup()
+
     try:
         light = LedDriver(21, 16, 20)
         light.switchOn()

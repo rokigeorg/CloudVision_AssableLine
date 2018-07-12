@@ -5,7 +5,7 @@ import sqlite3
 DB_NAME = "testDB.db"
 
 #SQL File with Table Schema and Initialization Data
-SQL_File_Name = "db_schema.sql"
+SQL_File_Name = "schema.sql"
 ##############################################
 
 #Read Table Schema into a Variable and remove all New Line Chars

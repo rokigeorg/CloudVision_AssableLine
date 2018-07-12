@@ -84,6 +84,8 @@ def main(_runMode):
 
         # Start the assableline to run forward
 
+        ledFlash.switchOn()
+
         motor.startPwmForward()
         for i in range(1, 10):
             isObjDetected = ldrReader.checksLdrInputPin()
