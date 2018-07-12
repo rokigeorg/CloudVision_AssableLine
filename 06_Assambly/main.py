@@ -8,6 +8,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 import time
 import argparse
+import subprocess
 
 
 class Hardware:
@@ -30,8 +31,16 @@ class Hardware:
         self.IMG_DIR_PATH = "/home/pi/EmbeddedSystemsProject/06_Assambly/storage/imgDir/"
         self.DIR_PATH_WITH_IMG_NAME = self.IMG_DIR_PATH + sts
         self.camera.capture(self.DIR_PATH_WITH_IMG_NAME)
+        #make a copy of th img to the webUx dir
+        self.copyImgTowebUxDir(sts)
 
         self.ledFlash.switchOff()
+
+    def copyImgTowebUxDir(self, _filename):
+        cmd = "cp /home/pi/EmbeddedSystemsProject/06_Assambly/storage/imgDir/" + _filename + " " + "/home/pi/EmbeddedSystemsProject/06_Assambly/webUx/static/imgs/" + _filename
+        print(cmd)
+        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
 
     def getPathWithImgName(self):
         log("in getter:" + self.DIR_PATH_WITH_IMG_NAME)
